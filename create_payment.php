@@ -71,7 +71,7 @@ $isBrandIdMissing = empty($brandId) || $brandId === 'your_brand_id_here';
 if ($isSecretKeyMissing || $isBrandIdMissing) {
     echo "\n";
     echo "========================================================\n";
-    echo " ⚠️  MISSING CREDENTIALS IN 'chip-env'\n";
+    echo " [WARNING] MISSING CREDENTIALS IN 'chip-env'\n";
     echo "========================================================\n";
     echo "Please open 'chip-env' and set your CHIP credentials:\n\n";
     if ($isSecretKeyMissing) {
@@ -139,7 +139,7 @@ $curlError = curl_error($ch);
 curl_close($ch);
 
 if ($response === false) {
-    echo "\n❌ Connection Error: {$curlError}\n";
+    echo "\n[ERROR] Connection Error: {$curlError}\n";
     exit(1);
 }
 
@@ -148,16 +148,16 @@ $responseData = json_decode($response, true);
 
 if ($httpCode >= 200 && $httpCode < 300 && !empty($responseData['checkout_url'])) {
     echo "\n========================================================\n";
-    echo " ✅ CHIP Dummy Checkout Link Created Successfully!\n";
+    echo " [SUCCESS] CHIP Dummy Checkout Link Created Successfully!\n";
     echo "========================================================\n\n";
     echo "Purchase ID  : " . ($responseData['id'] ?? 'N/A') . "\n";
     echo "Status       : " . ($responseData['status'] ?? 'created') . "\n";
     echo "Checkout URL : " . $responseData['checkout_url'] . "\n\n";
-    echo "👉 Open the link above in your browser to test the payment flow.\n";
+    echo "Open the link above in your browser to test the payment flow.\n";
     echo "========================================================\n\n";
 } else {
     echo "\n========================================================\n";
-    echo " ❌ Failed to create purchase (HTTP {$httpCode})\n";
+    echo " [FAILED] Failed to create purchase (HTTP {$httpCode})\n";
     echo "========================================================\n";
     if (is_array($responseData)) {
         echo json_encode($responseData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
