@@ -74,7 +74,7 @@ $isConfigured = !empty($footerConfig['secret_key']) && !empty($footerConfig['bra
                 <p class="footer-description">
                     Licensed pharmaceutical and healthcare essentials provider in Malaysia. Dispensing authentic vitamins, clinical supplements, gut health probiotics, and first-aid supplies with hospital-level quality assurance.
                 </p>
-                <div class="footer-badges">
+                <!-- <div class="footer-badges">
                     <span class="footer-badge">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         GMP & MOH Compliant
@@ -83,7 +83,7 @@ $isConfigured = !empty($footerConfig['secret_key']) && !empty($footerConfig['bra
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
                         CHIP Sandbox Verified
                     </span>
-                </div>
+                </div> -->
             </div>
 
             <!-- Col 2: Pharmacy Range -->
@@ -126,12 +126,12 @@ $isConfigured = !empty($footerConfig['secret_key']) && !empty($footerConfig['bra
                     <span class="channel-tag">Boost</span>
                     <span class="channel-tag">DuitNow QR</span>
                 </div>
-                <div class="footer-gateway-status mt-3">
+                <!-- <div class="footer-gateway-status mt-3">
                     <div class="status-pill <?php echo $isConfigured ? 'status-active' : 'status-missing'; ?>">
                         <span class="pulse-indicator"></span>
                         <span>CHIP <?php echo $isConfigured ? 'Sandbox Connected' : 'Credentials Missing'; ?></span>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -140,7 +140,7 @@ $isConfigured = !empty($footerConfig['secret_key']) && !empty($footerConfig['bra
     <div class="footer-bottom">
         <div class="footer-bottom-container">
             <div class="footer-copyright">
-                &copy; <?php echo date('Y'); ?> <strong>JYSTORE Healthcare & Pharmacy Sdn Bhd</strong>. All rights reserved.
+                &copy; <?php echo date('Y'); ?> <strong> JYSTORE Healthcare & Pharmacy Sdn Bhd</strong>. All rights reserved.
             </div>
             <div class="footer-bottom-links">
                 <a href="index.php">Storefront</a>
