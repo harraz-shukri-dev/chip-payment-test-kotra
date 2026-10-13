@@ -24,6 +24,22 @@
       "destination": "/api/checkout.php"
     },
     {
+      "source": "/thankyou.php",
+      "destination": "/api/thankyou.php"
+    },
+    {
+      "source": "/thankyou",
+      "destination": "/api/thankyou.php"
+    },
+    {
+      "source": "/failed.php",
+      "destination": "/api/failed.php"
+    },
+    {
+      "source": "/failed",
+      "destination": "/api/failed.php"
+    },
+    {
       "source": "/callback.php",
       "destination": "/api/callback.php"
     },

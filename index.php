@@ -1,22 +1,24 @@
 <?php
 /**
- * Product, Cart, and Checkout Storefront (Vanilla PHP)
- * Featuring RM 69.00 Product with CHIP Payment Integration
+ * JYSTORE - Modern Pharmaceutical & Healthcare Storefront
+ * Multi-Product Store with CHIP Payment Integration
  */
 
 declare(strict_types=1);
 
 require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/products.php';
 
 $chipConfig = getChipConfig();
 $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_id']);
+$catalog = getProductCatalog();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Pulse Neo | CHIP Payment Checkout Demo</title>
+    <title>JYSTORE | Trusted Healthcare & Pharmacy Essentials</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,7 +30,9 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
     <header class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <span class="logo-accent">AURA</span>TECH
+                <span class="logo-badge">💊</span>
+                <span class="logo-accent">JY</span>STORE
+                <span class="logo-tag">PHARMACY</span>
             </a>
 
             <div class="nav-right">
@@ -43,361 +47,444 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
 
                 <button class="cart-trigger" id="openCartBtn" aria-label="Open Cart">
                     <span class="cart-icon">🛒</span>
-                    <span class="cart-badge" id="cartCountBadge">1</span>
+                    <span>Cart</span>
+                    <span class="cart-badge" id="headerCartBadge">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Product Showcase -->
-    <main class="store-container">
-        
-        <div class="product-grid">
-            
-            <!-- Product Gallery Column -->
-            <div class="product-gallery">
-                <div class="image-wrapper">
-                    <img src="assets/earbuds.jpg" alt="Aura Pulse Neo Wireless Earbuds" class="main-product-img">
-                    <span class="badge-discount">-54% OFF</span>
+    <!-- Hero / Trust Banner Section -->
+    <section class="hero-section">
+        <div class="hero-banner">
+            <div class="hero-tagline">CLINICAL HEALTHCARE & WELLNESS</div>
+            <h1 class="hero-title">Certified Pharmacy Essentials</h1>
+            <p class="hero-subtitle">
+                Authentic healthcare supplements and first aid essentials sourced from verified pharmaceutical laboratories. Dispatched with tamper-proof seals across Malaysia.
+            </p>
+
+            <div class="trust-badges-grid">
+                <div class="trust-badge-item">
+                    <div class="trust-badge-icon">🛡️</div>
+                    <div class="trust-badge-text">
+                        <strong>GMP & Lab Audited</strong>
+                        <span>100% Quality Guaranteed</span>
+                    </div>
                 </div>
-                <div class="feature-pills">
-                    <div class="pill">⚡ Bluetooth 5.4</div>
-                    <div class="pill">🔋 40h Battery</div>
-                    <div class="pill">🔇 Active Noise Cancelling</div>
-                    <div class="pill">💧 IPX5 Water Resistant</div>
+                <div class="trust-badge-item">
+                    <div class="trust-badge-icon">🚚</div>
+                    <div class="trust-badge-text">
+                        <strong>Free Express Delivery</strong>
+                        <span>Orders over RM 60</span>
+                    </div>
+                </div>
+                <div class="trust-badge-item">
+                    <div class="trust-badge-icon">💳</div>
+                    <div class="trust-badge-text">
+                        <strong>CHIP Payment Gateway</strong>
+                        <span>FPX, e-Wallets, Cards</span>
+                    </div>
+                </div>
+                <div class="trust-badge-item">
+                    <div class="trust-badge-icon">🔒</div>
+                    <div class="trust-badge-text">
+                        <strong>Tamper-Proof Packed</strong>
+                        <span>Hospital-Grade Safety</span>
+                    </div>
                 </div>
             </div>
-
-            <!-- Product Details Column -->
-            <div class="product-info">
-                <div class="product-meta">
-                    <span class="category-tag">AUDIO ESSENTIALS</span>
-                    <div class="rating-box">
-                        <span class="stars">★★★★★</span>
-                        <span class="rating-text">4.9 (1,248 reviews)</span>
-                    </div>
-                </div>
-
-                <h1 class="product-title">Aura Pulse Neo Wireless Earbuds</h1>
-                <p class="product-subtitle">Premium acoustic architecture with dynamic hybrid active noise cancellation, custom graphene drivers, and crystal-clear ENC call clarity.</p>
-
-                <div class="price-section">
-                    <div class="current-price">
-                        <span class="currency">RM</span>
-                        <span class="amount" id="displayUnitPrice">69.00</span>
-                    </div>
-                    <div class="original-price">RM 149.00</div>
-                    <div class="save-tag">SAVE RM 80</div>
-                </div>
-
-                <!-- Stock / Delivery Guarantee -->
-                <div class="guarantee-box">
-                    <div class="guarantee-item">
-                        <span class="icon">📦</span>
-                        <span>In Stock & Ready for Immediate Dispatch</span>
-                    </div>
-                    <div class="guarantee-item">
-                        <span class="icon">🛡️</span>
-                        <span>1 Year Official Warranty Included</span>
-                    </div>
-                </div>
-
-                <!-- Quantity Selector -->
-                <div class="quantity-row">
-                    <span class="qty-label">Quantity</span>
-                    <div class="qty-stepper">
-                        <button type="button" class="stepper-btn" id="qtyMinus" aria-label="Decrease quantity">−</button>
-                        <input type="number" id="qtyInput" value="1" min="1" max="10" readonly>
-                        <button type="button" class="stepper-btn" id="qtyPlus" aria-label="Increase quantity">+</button>
-                    </div>
-                    <span class="total-hint" id="totalHint">Total: RM 69.00</span>
-                </div>
-
-                <!-- CTA Buttons -->
-                <div class="cta-actions">
-                    <button class="btn btn-primary btn-lg" id="buyNowBtn">
-                        <span class="btn-text">Instant Checkout with CHIP</span>
-                        <span class="btn-price" id="buyNowPriceTag">RM 69.00</span>
-                    </button>
-                    <button class="btn btn-secondary btn-lg" id="addToCartBtn">
-                        Add to Cart
-                    </button>
-                </div>
-
-                <!-- Payment Methods Supported -->
-                <div class="payment-methods-card">
-                    <span class="pm-title">Secure Instant Payments Powered by <strong>CHIP</strong>:</span>
-                    <div class="pm-badges">
-                        <span class="pm-badge">FPX Online Banking</span>
-                        <span class="pm-badge">Touch 'n Go</span>
-                        <span class="pm-badge">GrabPay</span>
-                        <span class="pm-badge">Boost</span>
-                        <span class="pm-badge">DuitNow QR</span>
-                        <span class="pm-badge">Visa / Mastercard</span>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
+    </section>
 
+    <!-- Category Filter Bar -->
+    <section class="category-filter-section">
+        <div class="category-filter-bar">
+            <button class="category-pill active" data-category="all">All Products (6)</button>
+            <button class="category-pill" data-category="heart">Heart & Brain</button>
+            <button class="category-pill" data-category="immunity">Immunity & Vitamins</button>
+            <button class="category-pill" data-category="gut">Digestive & Gut</button>
+            <button class="category-pill" data-category="sleep">Sleep & Relaxation</button>
+            <button class="category-pill" data-category="pain">Pain Relief</button>
+            <button class="category-pill" data-category="firstaid">First Aid & Antiseptic</button>
+        </div>
+    </section>
+
+    <!-- Multi-Product Showcase Grid -->
+    <main class="store-container">
+        <div class="products-grid" id="productsGrid">
+            <?php foreach ($catalog as $id => $prod): ?>
+                <?php 
+                    $discountPct = round((($prod['original_price'] - $prod['price']) / $prod['original_price']) * 100);
+                ?>
+                <article class="product-card" data-category="<?php echo htmlspecialchars($prod['category_slug']); ?>">
+                    
+                    <!-- Product Image Container -->
+                    <div class="product-image-container">
+                        <img src="<?php echo htmlspecialchars($prod['image']); ?>" alt="<?php echo htmlspecialchars($prod['name']); ?>" class="product-image" loading="lazy">
+                        <div class="card-top-badges">
+                            <span class="badge <?php echo htmlspecialchars($prod['badge_color']); ?>">
+                                <?php echo htmlspecialchars($prod['badge']); ?>
+                            </span>
+                            <span class="card-discount-tag">-<?php echo $discountPct; ?>% OFF</span>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="product-card-body">
+                        <span class="product-card-category"><?php echo htmlspecialchars($prod['category']); ?></span>
+                        <h2 class="product-card-title"><?php echo htmlspecialchars($prod['name']); ?></h2>
+                        
+                        <div class="product-rating-row">
+                            <span class="stars">★★★★★</span>
+                            <span class="font-bold"><?php echo number_format($prod['rating'], 1); ?></span>
+                            <span class="rating-reviews">(<?php echo number_format($prod['reviews']); ?> verified reviews)</span>
+                        </div>
+
+                        <p class="product-card-tagline"><?php echo htmlspecialchars($prod['tagline']); ?></p>
+
+                        <!-- Specifications Chips -->
+                        <div class="product-specs-list">
+                            <?php foreach ($prod['specs'] as $spec): ?>
+                                <span class="spec-chip">✓ <?php echo htmlspecialchars($spec); ?></span>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <!-- Price Section -->
+                        <div class="product-price-section">
+                            <div class="price-main">
+                                <span class="text-xs text-muted">RM</span> <?php echo number_format($prod['price'], 2); ?>
+                            </div>
+                            <div class="price-original">
+                                RM <?php echo number_format($prod['original_price'], 2); ?>
+                            </div>
+                            <span class="badge badge-success text-xs">SAVE RM <?php echo number_format($prod['original_price'] - $prod['price'], 2); ?></span>
+                        </div>
+
+                        <!-- Card Actions: Stepper + Add to Cart + Buy Now -->
+                        <div class="product-card-actions">
+                            <div class="qty-control">
+                                <button type="button" class="btn-qty-step btn-minus" data-id="<?php echo $id; ?>" aria-label="Decrease quantity">-</button>
+                                <span class="qty-display" id="cardQty_<?php echo $id; ?>">1</span>
+                                <button type="button" class="btn-qty-step btn-plus" data-id="<?php echo $id; ?>" aria-label="Increase quantity">+</button>
+                            </div>
+
+                            <button type="button" class="btn btn-add-cart" data-id="<?php echo $id; ?>" id="btnAdd_<?php echo $id; ?>">
+                                🛒 Add to Cart
+                            </button>
+
+                            <button type="button" class="btn btn-buy-instant" data-id="<?php echo $id; ?>">
+                                ⚡ Buy Now
+                            </button>
+                        </div>
+
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
     </main>
 
     <!-- Slide-out Cart Drawer -->
-    <div class="cart-drawer-overlay" id="cartOverlay"></div>
-    <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+        
         <div class="drawer-header">
-            <h3>Your Shopping Cart</h3>
-            <button class="drawer-close" id="closeCartBtn" aria-label="Close Cart">✕</button>
+            <h3>
+                <span>🛒</span>
+                <span>Your Cart</span>
+                <span class="badge badge-neutral" id="drawerItemCountBadge">0 items</span>
+            </h3>
+            <button class="btn-close-drawer" id="closeCartBtn" aria-label="Close cart">✕</button>
         </div>
 
-        <div class="drawer-body">
-            <div class="cart-item" id="cartItemElement">
-                <img src="assets/earbuds.jpg" alt="Aura Pulse Neo" class="cart-item-img">
-                <div class="cart-item-details">
-                    <h4 class="cart-item-name">Aura Pulse Neo Earbuds</h4>
-                    <div class="cart-item-price">RM 69.00</div>
-                    <div class="cart-item-qty-row">
-                        <span>Qty: <strong id="cartItemQty">1</strong></span>
-                        <span class="cart-item-subtotal">Subtotal: <strong id="cartItemSubtotal">RM 69.00</strong></span>
-                    </div>
-                </div>
-            </div>
+        <div class="shipping-progress-banner">
+            <span class="icon">🚚</span>
+            <span id="shippingProgressText">Add items to qualify for FREE delivery across Malaysia!</span>
         </div>
 
-        <div class="drawer-footer">
-            <div class="summary-line">
-                <span>Subtotal</span>
-                <span id="cartSubtotalText">RM 69.00</span>
+        <!-- Scrollable items list -->
+        <div class="drawer-items-list" id="drawerItemsList">
+            <!-- Injected by JavaScript -->
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="drawer-footer" id="drawerFooter">
+            <div class="drawer-summary-row">
+                <span>Items Subtotal</span>
+                <span class="font-mono font-medium" id="drawerSubtotalText">RM 0.00</span>
             </div>
-            <div class="summary-line">
-                <span>Shipping</span>
-                <span class="free-shipping">FREE (Malaysia)</span>
+            <div class="drawer-summary-row">
+                <span>Standard Shipping</span>
+                <span class="text-success font-medium" id="drawerShippingText">FREE</span>
             </div>
-            <div class="summary-line total-line">
-                <span>Total Due</span>
-                <span class="total-amount" id="cartTotalText">RM 69.00</span>
+            
+            <div class="drawer-total-row">
+                <span>Order Total:</span>
+                <div class="drawer-total-amount" id="drawerTotalText">RM 0.00</div>
             </div>
 
-            <button class="btn btn-primary btn-block btn-lg" id="proceedToCheckoutBtn">
-                Proceed to Checkout →
-            </button>
+            <a href="checkout.php" class="btn btn-primary btn-block btn-lg" id="btnDrawerCheckout">
+                🔒 Proceed to Checkout
+            </a>
+
+            <div class="text-right mt-3">
+                <button type="button" class="btn-ghost btn-sm text-dim" id="btnClearCart">
+                    🗑️ Clear Cart
+                </button>
+            </div>
         </div>
     </aside>
 
-    <!-- Checkout Modal -->
-    <div class="checkout-modal-overlay" id="checkoutOverlay">
-        <div class="checkout-modal">
-            
-            <div class="modal-header">
-                <div>
-                    <h2 class="modal-title">CHIP Gateway Checkout</h2>
-                    <p class="modal-subtitle">Review your details and pay RM <span id="modalHeaderAmount">69.00</span></p>
-                </div>
-                <button class="modal-close" id="closeCheckoutBtn" aria-label="Close Checkout">✕</button>
-            </div>
-
-            <form id="checkoutForm" class="modal-body">
-                
-                <div class="order-summary-box">
-                    <div class="summary-box-header">
-                        <strong>Order Summary</strong>
-                        <span class="font-mono text-sm">Test Mode</span>
-                    </div>
-                    <div class="summary-box-content">
-                        <div>Aura Pulse Neo Earbuds (x<span id="modalSummaryQty">1</span>)</div>
-                        <div class="font-bold text-lg text-primary" id="modalSummaryTotal">RM 69.00</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="custEmail">Email Address (For receipt)</label>
-                    <input type="email" id="custEmail" name="email" value="customer@example.com" required class="form-input">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="custName">Full Name</label>
-                        <input type="text" id="custName" name="name" value="Test Customer" required class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="custPhone">Phone Number</label>
-                        <input type="tel" id="custPhone" name="phone" value="+60123456789" required class="form-input">
-                    </div>
-                </div>
-
-                <div class="checkout-channels-preview">
-                    <span class="label-preview">Supported Payment Channels on CHIP Page:</span>
-                    <div class="channel-chips">
-                        <span>FPX</span>
-                        <span>Touch 'n Go</span>
-                        <span>GrabPay</span>
-                        <span>DuitNow QR</span>
-                        <span>Cards</span>
-                    </div>
-                </div>
-
-                <div id="checkoutErrorBox" class="error-banner" style="display: none;"></div>
-
-                <button type="submit" class="btn btn-primary btn-block btn-lg" id="payWithChipBtn">
-                    <span class="spinner" id="btnSpinner" style="display: none;"></span>
-                    <span id="btnPayText">Pay RM <span id="btnPayAmount">69.00</span> with CHIP</span>
-                </button>
-
-                <p class="security-footnote">
-                    🔒 You will be securely redirected to CHIP's hosted payment gateway to complete the payment.
-                </p>
-
-            </form>
-
-        </div>
-    </div>
-
-    <!-- Frontend Script -->
+    <!-- Client-Side Cart Script -->
     <script>
-        const UNIT_PRICE = 69.00;
-        let quantity = 1;
+        const catalog = <?php echo json_encode($catalog); ?>;
 
-        // Elements
-        const qtyInput = document.getElementById('qtyInput');
-        const qtyMinus = document.getElementById('qtyMinus');
-        const qtyPlus = document.getElementById('qtyPlus');
-        const totalHint = document.getElementById('totalHint');
-        const buyNowPriceTag = document.getElementById('buyNowPriceTag');
+        // Card quantity tracking
+        const cardQuantities = {};
+        Object.keys(catalog).forEach(id => {
+            cardQuantities[id] = 1;
+        });
 
-        // Cart Drawer
-        const openCartBtn = document.getElementById('openCartBtn');
-        const closeCartBtn = document.getElementById('closeCartBtn');
-        const cartDrawer = document.getElementById('cartDrawer');
-        const cartOverlay = document.getElementById('cartOverlay');
-        const addToCartBtn = document.getElementById('addToCartBtn');
-        const buyNowBtn = document.getElementById('buyNowBtn');
-        const proceedToCheckoutBtn = document.getElementById('proceedToCheckoutBtn');
+        // Stepper listeners
+        document.querySelectorAll('.btn-plus').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                if (cardQuantities[id] < 10) {
+                    cardQuantities[id]++;
+                    document.getElementById(`cardQty_${id}`).innerText = cardQuantities[id];
+                }
+            });
+        });
 
-        const cartItemQty = document.getElementById('cartItemQty');
-        const cartItemSubtotal = document.getElementById('cartItemSubtotal');
-        const cartSubtotalText = document.getElementById('cartSubtotalText');
-        const cartTotalText = document.getElementById('cartTotalText');
-        const cartCountBadge = document.getElementById('cartCountBadge');
+        document.querySelectorAll('.btn-minus').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                if (cardQuantities[id] > 1) {
+                    cardQuantities[id]--;
+                    document.getElementById(`cardQty_${id}`).innerText = cardQuantities[id];
+                }
+            });
+        });
 
-        // Checkout Modal
-        const checkoutOverlay = document.getElementById('checkoutOverlay');
-        const closeCheckoutBtn = document.getElementById('closeCheckoutBtn');
-        const checkoutForm = document.getElementById('checkoutForm');
-        const modalHeaderAmount = document.getElementById('modalHeaderAmount');
-        const modalSummaryQty = document.getElementById('modalSummaryQty');
-        const modalSummaryTotal = document.getElementById('modalSummaryTotal');
-        const btnPayAmount = document.getElementById('btnPayAmount');
-        const payWithChipBtn = document.getElementById('payWithChipBtn');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const btnPayText = document.getElementById('btnPayText');
-        const checkoutErrorBox = document.getElementById('checkoutErrorBox');
-
-        function updateTotals() {
-            const total = (quantity * UNIT_PRICE).toFixed(2);
-            qtyInput.value = quantity;
-            totalHint.innerText = `Total: RM ${total}`;
-            buyNowPriceTag.innerText = `RM ${total}`;
-
-            cartItemQty.innerText = quantity;
-            cartItemSubtotal.innerText = `RM ${total}`;
-            cartSubtotalText.innerText = `RM ${total}`;
-            cartTotalText.innerText = `RM ${total}`;
-            cartCountBadge.innerText = quantity;
-
-            modalHeaderAmount.innerText = total;
-            modalSummaryQty.innerText = quantity;
-            modalSummaryTotal.innerText = `RM ${total}`;
-            btnPayAmount.innerText = total;
+        // LocalStorage Cart Management
+        function getCart() {
+            try {
+                const raw = localStorage.getItem('jystore_cart');
+                return raw ? JSON.parse(raw) : [];
+            } catch(e) {
+                return [];
+            }
         }
 
-        qtyMinus.addEventListener('click', () => {
-            if (quantity > 1) {
-                quantity--;
-                updateTotals();
-            }
-        });
+        function saveCart(cart) {
+            try {
+                localStorage.setItem('jystore_cart', JSON.stringify(cart));
+            } catch(e) {}
+            renderCartUI();
+        }
 
-        qtyPlus.addEventListener('click', () => {
-            if (quantity < 10) {
-                quantity++;
-                updateTotals();
-            }
-        });
+        function addToCart(productId, qtyToAdd = 1, openDrawerImmediately = true) {
+            const product = catalog[productId];
+            if (!product) return;
 
-        // Cart Drawer Handlers
+            const cart = getCart();
+            const existingIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += qtyToAdd;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: qtyToAdd
+                });
+            }
+
+            saveCart(cart);
+
+            // Animate button feedback
+            const btn = document.getElementById(`btnAdd_${productId}`);
+            if (btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✓ Added!';
+                btn.style.background = '#0d9488';
+                btn.style.color = '#ffffff';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 1200);
+            }
+
+            if (openDrawerImmediately) {
+                openCart();
+            }
+        }
+
+        function updateCartItemQty(productId, newQty) {
+            let cart = getCart();
+            if (newQty <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            } else {
+                const item = cart.find(i => i.id === productId);
+                if (item) {
+                    item.quantity = Math.min(newQty, 20);
+                }
+            }
+            saveCart(cart);
+        }
+
+        function removeCartItem(productId) {
+            let cart = getCart();
+            cart = cart.filter(item => item.id !== productId);
+            saveCart(cart);
+        }
+
+        function clearCart() {
+            if (!confirm('Clear all items from your shopping cart?')) return;
+            saveCart([]);
+        }
+
+        // Render Cart Drawer
+        function renderCartUI() {
+            const cart = getCart();
+            const badgeEl = document.getElementById('headerCartBadge');
+            const drawerBadgeEl = document.getElementById('drawerItemCountBadge');
+            const listEl = document.getElementById('drawerItemsList');
+            const subtotalEl = document.getElementById('drawerSubtotalText');
+            const totalEl = document.getElementById('drawerTotalText');
+            const shippingProgressEl = document.getElementById('shippingProgressText');
+            const footerEl = document.getElementById('drawerFooter');
+
+            let totalQty = 0;
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                totalQty += item.quantity;
+                subtotal += (item.price * item.quantity);
+            });
+
+            badgeEl.innerText = totalQty;
+            drawerBadgeEl.innerText = `${totalQty} item${totalQty === 1 ? '' : 's'}`;
+
+            if (cart.length === 0) {
+                listEl.innerHTML = `
+                    <div class="empty-cart-state">
+                        <span class="icon">🛒</span>
+                        <h3>Your cart is empty</h3>
+                        <p class="text-xs text-muted mt-2">Explore our pharmaceutical catalog above to add healthcare essentials.</p>
+                        <button class="btn btn-outline btn-sm mt-4" onclick="closeCart()">Browse Products</button>
+                    </div>
+                `;
+                subtotalEl.innerText = 'RM 0.00';
+                totalEl.innerText = 'RM 0.00';
+                shippingProgressEl.innerHTML = '🚚 Add items to qualify for FREE delivery across Malaysia!';
+                document.getElementById('btnDrawerCheckout').style.pointerEvents = 'none';
+                document.getElementById('btnDrawerCheckout').style.opacity = '0.5';
+                return;
+            }
+
+            document.getElementById('btnDrawerCheckout').style.pointerEvents = 'auto';
+            document.getElementById('btnDrawerCheckout').style.opacity = '1';
+
+            if (subtotal >= 60) {
+                shippingProgressEl.innerHTML = '🎉 <strong>FREE Delivery unlocked!</strong> Free shipping applied to this order.';
+            } else {
+                const diff = (60 - subtotal).toFixed(2);
+                shippingProgressEl.innerHTML = `🚚 Add <strong>RM ${diff}</strong> more to unlock FREE Delivery!`;
+            }
+
+            listEl.innerHTML = '';
+            cart.forEach(item => {
+                const lineTotal = (item.price * item.quantity).toFixed(2);
+                const row = document.createElement('div');
+                row.className = 'cart-item-row';
+                row.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-thumb">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-name">${item.name}</h4>
+                        <div class="cart-item-price-unit">RM ${item.price.toFixed(2)}</div>
+                        <div class="cart-item-stepper">
+                            <button class="btn-mini-step" onclick="updateCartItemQty('${item.id}', ${item.quantity - 1})">-</button>
+                            <span class="mini-qty-val">${item.quantity}</span>
+                            <button class="btn-mini-step" onclick="updateCartItemQty('${item.id}', ${item.quantity + 1})">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-item-total-col">
+                        <button class="btn-remove-item" onclick="removeCartItem('${item.id}')" title="Remove Item">🗑️</button>
+                        <div class="cart-item-line-total">RM ${lineTotal}</div>
+                    </div>
+                `;
+                listEl.appendChild(row);
+            });
+
+            subtotalEl.innerText = `RM ${subtotal.toFixed(2)}`;
+            totalEl.innerText = `RM ${subtotal.toFixed(2)}`;
+        }
+
+        // Drawer Event Listeners
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const openCartBtn = document.getElementById('openCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+
         function openCart() {
             cartDrawer.classList.add('open');
             cartOverlay.classList.add('open');
         }
+
         function closeCart() {
             cartDrawer.classList.remove('open');
             cartOverlay.classList.remove('open');
         }
+
         openCartBtn.addEventListener('click', openCart);
         closeCartBtn.addEventListener('click', closeCart);
         cartOverlay.addEventListener('click', closeCart);
+        document.getElementById('btnClearCart').addEventListener('click', clearCart);
 
-        addToCartBtn.addEventListener('click', () => {
-            openCart();
+        // Add to Cart Button Handlers
+        document.querySelectorAll('.btn-add-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const qty = cardQuantities[id] || 1;
+                addToCart(id, qty, true);
+            });
         });
 
-        // Checkout Modal Handlers
-        function openCheckout() {
-            closeCart();
-            checkoutOverlay.classList.add('open');
-            checkoutErrorBox.style.display = 'none';
-        }
-        function closeCheckout() {
-            checkoutOverlay.classList.remove('open');
-        }
-        buyNowBtn.addEventListener('click', openCheckout);
-        proceedToCheckoutBtn.addEventListener('click', openCheckout);
-        closeCheckoutBtn.addEventListener('click', closeCheckout);
+        // Buy Now Button Handlers (Adds to cart & navigates to checkout.php)
+        document.querySelectorAll('.btn-buy-instant').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const qty = cardQuantities[id] || 1;
+                addToCart(id, qty, false);
+                window.location.href = 'checkout.php';
+            });
+        });
 
-        // Checkout Form Submit -> Call checkout.php
-        checkoutForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Category Filter
+        document.querySelectorAll('.category-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
 
-            payWithChipBtn.disabled = true;
-            btnSpinner.style.display = 'inline-block';
-            btnPayText.style.opacity = '0.7';
-            checkoutErrorBox.style.display = 'none';
+                const selected = btn.getAttribute('data-category');
+                const cards = document.querySelectorAll('.product-card');
 
-            const payload = {
-                quantity: quantity,
-                email: document.getElementById('custEmail').value,
-                name: document.getElementById('custName').value,
-                phone: document.getElementById('custPhone').value
-            };
-
-            try {
-                const res = await fetch('checkout.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                cards.forEach(card => {
+                    const cardCat = card.getAttribute('data-category');
+                    if (selected === 'all' || cardCat === selected) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
                 });
-
-                const data = await res.json();
-
-                if (data.success && data.checkout_url) {
-                    btnPayText.innerText = 'Redirecting to CHIP...';
-                    window.location.href = data.checkout_url;
-                } else {
-                    throw new Error(data.error || 'Failed to create CHIP checkout session');
-                }
-            } catch (err) {
-                checkoutErrorBox.innerText = '❌ Error: ' + err.message;
-                checkoutErrorBox.style.display = 'block';
-                payWithChipBtn.disabled = false;
-                btnSpinner.style.display = 'none';
-                btnPayText.style.opacity = '1';
-                btnPayText.innerHTML = `Pay RM <span id="btnPayAmount">${(quantity * UNIT_PRICE).toFixed(2)}</span> with CHIP`;
-            }
+            });
         });
 
-        // Initialize
-        updateTotals();
+        // Initialize on load
+        renderCartUI();
     </script>
 </body>
 </html>
