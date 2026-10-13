@@ -23,6 +23,7 @@ $catalog = getProductCatalog();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -346,6 +347,15 @@ $catalog = getProductCatalog();
 
             if (openDrawerImmediately) {
                 openCart();
+            } else {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `${product.name} added to cart!`,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             }
         }
 
@@ -364,13 +374,45 @@ $catalog = getProductCatalog();
 
         function removeCartItem(productId) {
             let cart = getCart();
+            const item = cart.find(i => i.id === productId);
             cart = cart.filter(item => item.id !== productId);
             saveCart(cart);
+            if (item) {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'info',
+                    title: `${item.name} removed`,
+                    showConfirmButton: false,
+                    timer: 1600
+                });
+            }
         }
 
         function clearCart() {
-            if (!confirm('Clear all items from your shopping cart?')) return;
-            saveCart([]);
+            Swal.fire({
+                title: 'Clear Shopping Cart?',
+                text: 'Are you sure you want to remove all items from your cart?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#008c44',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, clear cart',
+                cancelButtonText: 'Keep items',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    saveCart([]);
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Cart has been cleared',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
         }
 
         // Render Cart Drawer

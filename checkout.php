@@ -159,10 +159,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    $errMsg = 'CHIP API Error (' . $httpCode . ')';
+    if (!empty($data['message']) && is_string($data['message'])) {
+        $errMsg = $data['message'];
+    } elseif (!empty($data['errors'])) {
+        if (is_array($data['errors'])) {
+            $errParts = [];
+            foreach ($data['errors'] as $fld => $errs) {
+                $errParts[] = is_array($errs) ? ($fld . ': ' . implode(', ', $errs)) : ($fld . ': ' . $errs);
+            }
+            $errMsg = implode('; ', $errParts);
+        } else {
+            $errMsg = (string)$data['errors'];
+        }
+    }
+
     http_response_code($httpCode >= 400 ? $httpCode : 500);
     echo json_encode([
         'success' => false,
-        'error' => $data['message'] ?? ($data['errors'] ?? 'CHIP API Error (' . $httpCode . ')'),
+        'error' => $errMsg,
         'details' => $data,
     ]);
     exit;
@@ -183,6 +198,7 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="checkout-page-body">
 
@@ -449,13 +465,37 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
             const custPostcode = document.getElementById('custPostcode').value.trim();
 
             if (!custName || !custEmail || !custPhone) {
-                alert('Please fill in your Name, Email and Phone number.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Required Fields',
+                    text: 'Please fill in your Full Name, Email Address, and Phone Number.',
+                    confirmButtonColor: '#008c44'
+                });
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(custEmail)) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Invalid Email Address',
+                    text: 'Please provide a valid email address so CHIP can deliver your payment receipt.',
+                    confirmButtonColor: '#008c44'
+                });
                 return;
             }
 
             const cart = getCart();
             if (!cart || cart.length === 0) {
-                alert('Your shopping cart is empty.');
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Your Cart is Empty',
+                    text: 'Please add healthcare items to your cart before proceeding to checkout.',
+                    confirmButtonColor: '#008c44',
+                    confirmButtonText: 'Return to Store'
+                }).then(() => {
+                    window.location.href = 'index.php';
+                });
                 return;
             }
 
@@ -485,7 +525,16 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
 
                 if (data.success && data.checkout_url) {
                     btnText.innerText = 'Redirecting to CHIP Gateway...';
-                    window.location.href = data.checkout_url;
+                    Swal.fire({
+                        title: 'Connecting to CHIP',
+                        text: 'Redirecting to secure CHIP payment gateway...',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1600,
+                        willClose: () => {
+                            window.location.href = data.checkout_url;
+                        }
+                    });
                 } else {
                     throw new Error(data.error || 'Failed to initialize payment gateway.');
                 }
@@ -496,6 +545,13 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                 spinner.style.display = 'none';
                 btnText.style.opacity = '1';
                 renderCheckoutSummary();
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Payment Gateway Error',
+                    text: err.message,
+                    confirmButtonColor: '#008c44'
+                });
             }
         });
 

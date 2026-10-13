@@ -22,6 +22,7 @@ $baseUrl = getBaseUrl();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="dashboard-body">
     <!-- Top Nav -->
@@ -31,7 +32,10 @@ $baseUrl = getBaseUrl();
             <span class="nav-title">Integration & Webhook Monitor</span>
         </div>
         <div class="nav-actions">
-            <a href="index.php" class="btn btn-outline btn-sm">← Back to Store</a>
+            <a href="index.php" class="btn btn-outline btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                <span>Back to Store</span>
+            </a>
             <button class="btn btn-danger btn-sm" onclick="clearLogs()">Clear Logs</button>
         </div>
     </header>
@@ -45,7 +49,7 @@ $baseUrl = getBaseUrl();
                 <p>Configure this URL in <a href="https://portal.chip-in.asia/collect" target="_blank" class="link-chip">CHIP Portal → Developers → Webhooks</a></p>
                 <div class="code-box">
                     <span class="font-mono" id="webhookUrlText"><?php echo htmlspecialchars($baseUrl . '/webhook.php'); ?></span>
-                    <button class="btn-copy" onclick="navigator.clipboard.writeText(document.getElementById('webhookUrlText').innerText); alert('Copied!');">Copy</button>
+                    <button class="btn-copy" onclick="copyWebhookUrl()">Copy</button>
                 </div>
             </div>
             <div class="banner-status-cards">
@@ -185,6 +189,18 @@ $baseUrl = getBaseUrl();
     </main>
 
     <script>
+        function copyWebhookUrl() {
+            navigator.clipboard.writeText(document.getElementById('webhookUrlText').innerText);
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Webhook URL copied to clipboard!',
+                showConfirmButton: false,
+                timer: 1800
+            });
+        }
+
         async function simulateOrderWebhook(id) {
             try {
                 const formData = new FormData();
@@ -194,26 +210,70 @@ $baseUrl = getBaseUrl();
                 const res = await fetch('api-status.php', { method: 'POST', body: formData });
                 const data = await res.json();
                 if (data.success) {
-                    alert('Webhook event logged successfully for order: ' + id);
-                    location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Webhook Simulated',
+                        text: 'Simulated payment webhook logged successfully for order: ' + id,
+                        confirmButtonColor: '#008c44'
+                    }).then(() => location.reload());
                 } else {
-                    alert('Error: ' + data.error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Simulation Error',
+                        text: data.error || 'Failed to simulate webhook event.',
+                        confirmButtonColor: '#008c44'
+                    });
                 }
             } catch (e) {
-                alert('Request failed: ' + e.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Request Failed',
+                    text: e.message,
+                    confirmButtonColor: '#008c44'
+                });
             }
         }
 
         async function clearLogs() {
-            if (!confirm('Clear all orders and webhook logs?')) return;
+            const result = await Swal.fire({
+                title: 'Clear Monitor Logs?',
+                text: 'This will delete all tracked orders and webhook transaction logs. This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Yes, clear all',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            });
+
+            if (!result.isConfirmed) return;
+
             try {
                 const res = await fetch('api-status.php?action=clear_logs');
                 const data = await res.json();
                 if (data.success) {
-                    location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Logs Cleared',
+                        text: 'All orders and webhook logs have been cleared.',
+                        confirmButtonColor: '#008c44'
+                    }).then(() => location.reload());
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.error || 'Failed to clear logs.',
+                        confirmButtonColor: '#008c44'
+                    });
                 }
             } catch (e) {
-                alert('Error clearing logs');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Request failed: ' + e.message,
+                    confirmButtonColor: '#008c44'
+                });
             }
         }
     </script>
