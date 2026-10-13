@@ -160,6 +160,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'chip_response' => $data,
         ]);
 
+        // Persist purchaseId in session cookie for seamless thank you page reconciliation
+        setcookie('jystore_last_purchase_id', $purchaseId, time() + 86400, '/');
+
         echo json_encode([
             'success' => true,
             'checkout_url' => $data['checkout_url'],
@@ -541,6 +544,26 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
 
                 if (data.success && data.checkout_url) {
                     btnText.innerText = 'Redirecting to CHIP Gateway...';
+
+                    // Save real order details to localStorage and cookie for instant thank-you receipt rendering
+                    try {
+                        localStorage.setItem('jystore_recent_order', JSON.stringify({
+                            id: data.purchase_id,
+                            amount_rm: data.amount_rm,
+                            customer: {
+                                name: custName,
+                                email: custEmail,
+                                phone: custPhone,
+                                address: custAddress,
+                                city: custCity,
+                                postcode: custPostcode
+                            },
+                            items: cart,
+                            timestamp: Date.now()
+                        }));
+                        document.cookie = "jystore_last_purchase_id=" + encodeURIComponent(data.purchase_id) + "; path=/; max-age=86400; SameSite=Lax";
+                    } catch(e) {}
+
                     Swal.fire({
                         title: 'Connecting to CHIP',
                         text: 'Redirecting to secure CHIP payment gateway...',
