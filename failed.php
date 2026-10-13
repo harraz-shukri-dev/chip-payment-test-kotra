@@ -1,6 +1,7 @@
 <?php
 /**
  * JYSTORE - Payment Failed / Cancelled Page
+ * Flat Professional Theme & Vector Icons (Zero Emojis, Zero Gradients)
  */
 
 declare(strict_types=1);
@@ -35,31 +36,39 @@ $subtitle = $isCancelled
     <header class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <span class="logo-badge">💊</span>
+                <span class="logo-icon-box" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+                </span>
                 <span class="logo-accent">JY</span>STORE
                 <span class="logo-tag">PHARMACY</span>
             </a>
             <div class="nav-right">
-                <a href="index.php" class="nav-link">← Storefront</a>
-                <a href="debug.php" class="btn-monitor-link">📡 Monitor Dashboard</a>
+                <a href="index.php" class="btn btn-outline btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span>Storefront</span>
+                </a>
+                <a href="debug.php" class="btn-monitor-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>Monitor</span>
+                </a>
             </div>
         </div>
     </header>
 
     <main class="page-container">
-        <div class="status-card failed-card">
+        <div class="status-card">
             
             <!-- Icon -->
-            <div class="status-icon-wrapper failed-icon">
-                <span class="status-emoji">✕</span>
+            <div class="status-icon-wrapper failed-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </div>
 
-            <span class="badge badge-warning mb-2"><?php echo strtoupper($isCancelled ? 'TRANSACTION CANCELLED' : 'PAYMENT DECLINED'); ?></span>
+            <span class="badge badge-warning mb-2"><?php echo strtoupper($isCancelled ? 'Transaction Cancelled' : 'Payment Declined'); ?></span>
             <h1 class="status-title"><?php echo htmlspecialchars($title); ?></h1>
             <p class="status-subtitle"><?php echo htmlspecialchars($subtitle); ?></p>
 
             <!-- Order Ref box if available -->
-            <div class="receipt-box failed-box-inner">
+            <div class="receipt-box">
                 <div class="receipt-header-row">
                     <div>
                         <span class="text-xs text-muted">ORDER REFERENCE</span>
@@ -68,23 +77,23 @@ $subtitle = $isCancelled
                     <?php if ($order && !empty($order['amount_rm'])): ?>
                     <div class="text-right">
                         <span class="text-xs text-muted">PENDING TOTAL</span>
-                        <div class="text-lg font-bold">RM <?php echo htmlspecialchars($order['amount_rm']); ?></div>
+                        <div class="text-lg font-bold font-mono">RM <?php echo htmlspecialchars($order['amount_rm']); ?></div>
                     </div>
                     <?php endif; ?>
                 </div>
 
                 <div class="failed-tips">
                     <div class="tip-item">
-                        <span class="tip-icon">💡</span>
-                        <span>Your items are still safely preserved in your shopping cart.</span>
+                        <svg class="icon text-primary" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <span>Your items remain preserved in your shopping cart.</span>
                     </div>
                     <div class="tip-item">
-                        <span class="tip-icon">🔒</span>
+                        <svg class="icon text-primary" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         <span>No charges were applied to your bank account or payment card.</span>
                     </div>
                     <div class="tip-item">
-                        <span class="tip-icon">🔄</span>
-                        <span>You can retry immediately with FPX, Touch 'n Go eWallet, GrabPay, or Card.</span>
+                        <svg class="icon text-primary" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                        <span>You can retry immediately with FPX, Touch 'n Go, GrabPay, or Card.</span>
                     </div>
                 </div>
             </div>
@@ -92,13 +101,16 @@ $subtitle = $isCancelled
             <!-- Actions -->
             <div class="status-actions">
                 <a href="checkout.php" class="btn btn-primary btn-lg">
-                    🔄 Return to Checkout & Retry Payment
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                    <span>Return to Checkout & Retry Payment</span>
                 </a>
-                <a href="index.php" class="btn btn-outline btn-lg">
-                    ← Back to Products
+                <a href="index.php" class="btn btn-outline">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span>Back to Products</span>
                 </a>
                 <a href="debug.php" class="btn btn-ghost">
-                    📡 View Webhook Diagnostic Log
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>View Webhook Diagnostics</span>
                 </a>
             </div>
 

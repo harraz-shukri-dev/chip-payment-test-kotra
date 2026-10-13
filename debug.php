@@ -41,7 +41,7 @@ $baseUrl = getBaseUrl();
         <!-- Environment & Webhook URL Configuration Banner -->
         <div class="monitor-banner">
             <div class="banner-info">
-                <h3>⚡ Webhook Receiver Endpoint</h3>
+                <h3>Webhook Receiver Endpoint</h3>
                 <p>Configure this URL in <a href="https://portal.chip-in.asia/collect" target="_blank" class="link-chip">CHIP Portal → Developers → Webhooks</a></p>
                 <div class="code-box">
                     <span class="font-mono" id="webhookUrlText"><?php echo htmlspecialchars($baseUrl . '/webhook.php'); ?></span>
@@ -56,7 +56,7 @@ $baseUrl = getBaseUrl();
                 <div class="status-mini-card">
                     <span class="mini-label">Public Key (RSA)</span>
                     <span class="mini-val <?php echo !empty($chipConfig['public_key']) ? 'text-success' : 'text-warning'; ?>">
-                        <?php echo !empty($chipConfig['public_key']) ? 'Configured ✓' : 'Not in chip-env (Optional)'; ?>
+                        <?php echo !empty($chipConfig['public_key']) ? 'Configured' : 'Not in chip-env (Optional)'; ?>
                     </span>
                 </div>
             </div>
@@ -64,7 +64,9 @@ $baseUrl = getBaseUrl();
 
         <!-- Localhost Tunneling Notice -->
         <div class="tunnel-callout">
-            <div class="callout-icon">💡</div>
+            <div class="callout-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </div>
             <div class="callout-body">
                 <strong>Testing Webhooks from CHIP on Localhost:</strong>
                 <p>When running on <code>localhost:8000</code>, CHIP's external cloud servers cannot reach your computer directly. To receive real-time server-to-server webhooks directly from CHIP:</p>
@@ -80,7 +82,7 @@ $baseUrl = getBaseUrl();
         <!-- Section 1: Orders -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>📦 Created Purchases & Orders (<?php echo count($orders); ?>)</h2>
+                <h2>Created Purchases & Orders (<?php echo count($orders); ?>)</h2>
             </div>
 
             <?php if (empty($orders)): ?>
@@ -114,14 +116,14 @@ $baseUrl = getBaseUrl();
                                     <td><?php echo htmlspecialchars($order['customer']['email'] ?? 'customer@example.com'); ?></td>
                                     <td>
                                         <?php if (!empty($order['callback_received'])): ?>
-                                            <span class="status-chip success">✓ Redirected</span>
+                                            <span class="status-chip success">Redirected</span>
                                         <?php else: ?>
-                                            <span class="status-chip pending">— Not yet</span>
+                                            <span class="status-chip pending">Pending</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
                                         <?php if (!empty($order['webhook_received'])): ?>
-                                            <span class="status-chip success">✓ Received</span>
+                                            <span class="status-chip success">Received</span>
                                         <?php else: ?>
                                             <span class="status-chip pending">Waiting</span>
                                         <?php endif; ?>
@@ -146,7 +148,7 @@ $baseUrl = getBaseUrl();
         <!-- Section 2: Webhooks Log -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2>📬 Webhook Delivery Logs (<?php echo count($webhooks); ?>)</h2>
+                <h2>Webhook Delivery Logs (<?php echo count($webhooks); ?>)</h2>
             </div>
 
             <?php if (empty($webhooks)): ?>
@@ -164,7 +166,7 @@ $baseUrl = getBaseUrl();
                                     Status: <?php echo strtoupper($wh['status'] ?? 'OK'); ?>
                                 </span>
                                 <span class="signature-tag <?php echo ($wh['signature_verification']['valid'] ?? false) ? 'valid' : 'unverified'; ?>">
-                                    <?php echo ($wh['signature_verification']['valid'] ?? false) ? 'RSA Signature Verified ✓' : ($wh['signature_verification']['reason'] ?? 'Unverified'); ?>
+                                    <?php echo ($wh['signature_verification']['valid'] ?? false) ? 'RSA Signature Verified' : ($wh['signature_verification']['reason'] ?? 'Unverified'); ?>
                                 </span>
                             </div>
                             <div class="webhook-item-details">
@@ -192,7 +194,7 @@ $baseUrl = getBaseUrl();
                 const res = await fetch('api-status.php', { method: 'POST', body: formData });
                 const data = await res.json();
                 if (data.success) {
-                    alert('✅ Webhook event logged successfully for order: ' + id);
+                    alert('Webhook event logged successfully for order: ' + id);
                     location.reload();
                 } else {
                     alert('Error: ' + data.error);

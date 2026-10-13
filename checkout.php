@@ -1,8 +1,7 @@
 <?php
 /**
  * JYSTORE - Checkout Page & CHIP Payment Processor
- * - GET: Renders full Checkout UI with itemized order review & customer form
- * - POST: Creates a purchase on CHIP and returns the checkout URL
+ * Flat Professional Theme & Vector Icons (Zero Emojis, Zero Gradients)
  */
 
 declare(strict_types=1);
@@ -47,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Items parsing
     $items = $input['items'] ?? [];
     if (!is_array($items) || empty($items)) {
-        // Fallback to default single item if submitted without cart array
         $items = [
             [
                 'id' => 'fishoil',
@@ -66,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $price = (float)($item['price'] ?? 10.00);
         $qty = max(1, (int)($item['quantity'] ?? 1));
 
-        // CHIP requires price in cents
         $priceCents = (int)round($price * 100);
         $totalCents += ($priceCents * $qty);
 
@@ -100,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'cancel_redirect'  => $baseUrl . '/failed.php?status=cancelled',
     ];
 
-    // Add success_callback if public domain
     if (!str_contains($baseUrl, 'localhost') && !preg_match('/:\d+$/', parse_url($baseUrl, PHP_URL_HOST) ?? '')) {
         $payload['success_callback'] = $baseUrl . '/webhook.php';
     }
@@ -134,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($httpCode >= 200 && $httpCode < 300 && !empty($data['checkout_url'])) {
         $purchaseId = $data['id'];
 
-        // Persist order in local store
         saveOrder([
             'id' => $purchaseId,
             'checkout_url' => $data['checkout_url'],
@@ -195,17 +190,22 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
     <header class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <span class="logo-badge">💊</span>
+                <span class="logo-icon-box" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+                </span>
                 <span class="logo-accent">JY</span>STORE
                 <span class="logo-tag">CHECKOUT</span>
             </a>
 
             <div class="nav-right">
                 <div class="security-pill">
-                    <span class="icon">🔒</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     <span>256-Bit SSL Encrypted Checkout</span>
                 </div>
-                <a href="index.php" class="btn btn-outline btn-sm">← Back to Store</a>
+                <a href="index.php" class="btn btn-outline btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span>Back to Store</span>
+                </a>
             </div>
         </div>
     </header>
@@ -218,13 +218,13 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                 <div class="checkout-card">
                     <div class="card-section-header">
                         <span class="section-step">1</span>
-                        <h2>Customer & Delivery Details</h2>
+                        <h2>Customer & Delivery Information</h2>
                     </div>
 
                     <form id="fullCheckoutForm" class="form-grid">
                         <div class="form-group full-width">
                             <label for="custName">Full Name <span class="required">*</span></label>
-                            <input type="text" id="custName" name="name" required placeholder="e.g. Ahmad Razif" value="Ahmad Razif">
+                            <input type="text" id="custName" name="name" required placeholder="Full Name" value="Ahmad Razif">
                         </div>
 
                         <div class="form-group half-width">
@@ -240,17 +240,17 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
 
                         <div class="form-group full-width">
                             <label for="custAddress">Delivery Address <span class="required">*</span></label>
-                            <input type="text" id="custAddress" name="address" required placeholder="House / Unit No., Street, Building" value="No. 18, Jalan Ampang Hilir">
+                            <input type="text" id="custAddress" name="address" required placeholder="Unit No., Street Address" value="No. 18, Jalan Ampang Hilir">
                         </div>
 
                         <div class="form-group half-width">
                             <label for="custCity">City <span class="required">*</span></label>
-                            <input type="text" id="custCity" name="city" required placeholder="Kuala Lumpur" value="Kuala Lumpur">
+                            <input type="text" id="custCity" name="city" required placeholder="City" value="Kuala Lumpur">
                         </div>
 
                         <div class="form-group half-width">
                             <label for="custPostcode">Postcode <span class="required">*</span></label>
-                            <input type="text" id="custPostcode" name="postcode" required placeholder="50450" value="50450">
+                            <input type="text" id="custPostcode" name="postcode" required placeholder="Postcode" value="50450">
                         </div>
                     </form>
                 </div>
@@ -262,7 +262,7 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                         <h2>Payment Gateway (CHIP)</h2>
                     </div>
 
-                    <div class="payment-selector-card selected">
+                    <div class="payment-selector-card">
                         <div class="payment-selector-top">
                             <div class="payment-selector-radio">
                                 <span class="radio-checked"></span>
@@ -274,14 +274,14 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                             <span class="badge badge-emerald">Instant Verification</span>
                         </div>
 
-                        <!-- Channel Logos -->
+                        <!-- Channel Badges -->
                         <div class="payment-channels-showcase">
-                            <div class="channel-pill">🏦 FPX Banking (All Banks)</div>
-                            <div class="channel-pill">📲 Touch 'n Go eWallet</div>
-                            <div class="channel-pill">🟢 GrabPay</div>
-                            <div class="channel-pill">🔴 Boost</div>
-                            <div class="channel-pill">💳 Visa / Mastercard</div>
-                            <div class="channel-pill">⚡ DuitNow QR</div>
+                            <div class="channel-pill">FPX Online Banking</div>
+                            <div class="channel-pill">Touch 'n Go eWallet</div>
+                            <div class="channel-pill">GrabPay</div>
+                            <div class="channel-pill">Boost</div>
+                            <div class="channel-pill">Visa / Mastercard</div>
+                            <div class="channel-pill">DuitNow QR</div>
                         </div>
 
                         <p class="text-xs text-muted mt-3">
@@ -313,7 +313,7 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                     </div>
 
                     <div class="summary-row">
-                        <span>Standard Shipping (West & East MY)</span>
+                        <span>Standard Shipping</span>
                         <span class="font-mono text-success font-medium">FREE</span>
                     </div>
 
@@ -336,18 +336,31 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                     </div>
 
                     <!-- Error Alert Box -->
-                    <div class="error-banner" id="checkoutErrorBox" style="display: none;"></div>
+                    <div class="error-banner" id="checkoutErrorBox" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                        <span id="errorMsgSpan"></span>
+                    </div>
 
                     <!-- Submit Button -->
                     <button type="button" id="btnPlaceOrder" class="btn btn-primary btn-block btn-lg mt-4">
                         <span class="btn-spinner" id="btnSpinner" style="display: none;"></span>
-                        <span id="btnPayText">🔒 Pay RM <span id="btnAmountText">0.00</span> with CHIP</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span id="btnPayText">Pay RM <span id="btnAmountText">0.00</span> with CHIP</span>
                     </button>
 
                     <div class="guarantee-mini-list mt-3">
-                        <div class="mini-item">✓ 100% Genuine Pharmacy Products</div>
-                        <div class="mini-item">✓ Sandbox Test Payments Accepted</div>
-                        <div class="mini-item">✓ Instant Order Confirmation & Receipt</div>
+                        <div class="mini-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>100% Genuine Pharmacy Products</span>
+                        </div>
+                        <div class="mini-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Sandbox Test Payments Accepted</span>
+                        </div>
+                        <div class="mini-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Instant Order Confirmation & Receipt</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -376,7 +389,6 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
             const totalEl = document.getElementById('totalDisplay');
             const btnAmountEl = document.getElementById('btnAmountText');
 
-            // If cart is empty, add a default product for testing convenience
             if (!cart || cart.length === 0) {
                 cart = [{
                     id: 'fishoil',
@@ -427,6 +439,7 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
             const spinner = document.getElementById('btnSpinner');
             const btnText = document.getElementById('btnPayText');
             const errorBox = document.getElementById('checkoutErrorBox');
+            const errorSpan = document.getElementById('errorMsgSpan');
 
             const custName = document.getElementById('custName').value.trim();
             const custEmail = document.getElementById('custEmail').value.trim();
@@ -477,8 +490,8 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                     throw new Error(data.error || 'Failed to initialize payment gateway.');
                 }
             } catch (err) {
-                errorBox.innerText = '❌ ' + err.message;
-                errorBox.style.display = 'block';
+                errorSpan.innerText = err.message;
+                errorBox.style.display = 'flex';
                 btn.disabled = false;
                 spinner.style.display = 'none';
                 btnText.style.opacity = '1';
@@ -486,7 +499,6 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
             }
         });
 
-        // Initialize view
         renderCheckoutSummary();
     </script>
 </body>

@@ -1,7 +1,7 @@
 <?php
 /**
  * JYSTORE - Modern Pharmaceutical & Healthcare Storefront
- * Multi-Product Store with CHIP Payment Integration
+ * Professional Flat Color & Vector Icon Theme
  */
 
 declare(strict_types=1);
@@ -18,7 +18,7 @@ $catalog = getProductCatalog();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JYSTORE | Trusted Healthcare & Pharmacy Essentials</title>
+    <title>JYSTORE | Healthcare & Pharmacy Essentials</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -30,7 +30,9 @@ $catalog = getProductCatalog();
     <header class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <span class="logo-badge">💊</span>
+                <span class="logo-icon-box" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+                </span>
                 <span class="logo-accent">JY</span>STORE
                 <span class="logo-tag">PHARMACY</span>
             </a>
@@ -42,11 +44,12 @@ $catalog = getProductCatalog();
                 </div>
 
                 <a href="debug.php" class="btn-monitor-link">
-                    📡 Webhook & Orders Monitor
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>Webhook Monitor</span>
                 </a>
 
                 <button class="cart-trigger" id="openCartBtn" aria-label="Open Cart">
-                    <span class="cart-icon">🛒</span>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                     <span>Cart</span>
                     <span class="cart-badge" id="headerCartBadge">0</span>
                 </button>
@@ -65,28 +68,36 @@ $catalog = getProductCatalog();
 
             <div class="trust-badges-grid">
                 <div class="trust-badge-item">
-                    <div class="trust-badge-icon">🛡️</div>
+                    <div class="trust-badge-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    </div>
                     <div class="trust-badge-text">
                         <strong>GMP & Lab Audited</strong>
                         <span>100% Quality Guaranteed</span>
                     </div>
                 </div>
                 <div class="trust-badge-item">
-                    <div class="trust-badge-icon">🚚</div>
+                    <div class="trust-badge-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="10" x="1" y="5" rx="1"/><polygon points="15 5 19 8 19 15 15 15 15 5"/><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg>
+                    </div>
                     <div class="trust-badge-text">
                         <strong>Free Express Delivery</strong>
                         <span>Orders over RM 60</span>
                     </div>
                 </div>
                 <div class="trust-badge-item">
-                    <div class="trust-badge-icon">💳</div>
+                    <div class="trust-badge-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    </div>
                     <div class="trust-badge-text">
                         <strong>CHIP Payment Gateway</strong>
                         <span>FPX, e-Wallets, Cards</span>
                     </div>
                 </div>
                 <div class="trust-badge-item">
-                    <div class="trust-badge-icon">🔒</div>
+                    <div class="trust-badge-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
                     <div class="trust-badge-text">
                         <strong>Tamper-Proof Packed</strong>
                         <span>Hospital-Grade Safety</span>
@@ -135,9 +146,13 @@ $catalog = getProductCatalog();
                         <h2 class="product-card-title"><?php echo htmlspecialchars($prod['name']); ?></h2>
                         
                         <div class="product-rating-row">
-                            <span class="stars">★★★★★</span>
+                            <span class="stars-svg-row" aria-label="5 stars rating">
+                                <?php for ($s = 0; $s < 5; $s++): ?>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <?php endfor; ?>
+                            </span>
                             <span class="font-bold"><?php echo number_format($prod['rating'], 1); ?></span>
-                            <span class="rating-reviews">(<?php echo number_format($prod['reviews']); ?> verified reviews)</span>
+                            <span class="rating-reviews">(<?php echo number_format($prod['reviews']); ?> reviews)</span>
                         </div>
 
                         <p class="product-card-tagline"><?php echo htmlspecialchars($prod['tagline']); ?></p>
@@ -145,7 +160,10 @@ $catalog = getProductCatalog();
                         <!-- Specifications Chips -->
                         <div class="product-specs-list">
                             <?php foreach ($prod['specs'] as $spec): ?>
-                                <span class="spec-chip">✓ <?php echo htmlspecialchars($spec); ?></span>
+                                <span class="spec-chip">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <?php echo htmlspecialchars($spec); ?>
+                                </span>
                             <?php endforeach; ?>
                         </div>
 
@@ -157,7 +175,7 @@ $catalog = getProductCatalog();
                             <div class="price-original">
                                 RM <?php echo number_format($prod['original_price'], 2); ?>
                             </div>
-                            <span class="badge badge-success text-xs">SAVE RM <?php echo number_format($prod['original_price'] - $prod['price'], 2); ?></span>
+                            <span class="badge badge-success text-xs">Save RM <?php echo number_format($prod['original_price'] - $prod['price'], 2); ?></span>
                         </div>
 
                         <!-- Card Actions: Stepper + Add to Cart + Buy Now -->
@@ -169,11 +187,13 @@ $catalog = getProductCatalog();
                             </div>
 
                             <button type="button" class="btn btn-add-cart" data-id="<?php echo $id; ?>" id="btnAdd_<?php echo $id; ?>">
-                                🛒 Add to Cart
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" x2="12" y1="10" y2="16"/><line x1="9" x2="15" y1="13" y2="13"/></svg>
+                                <span>Add to Cart</span>
                             </button>
 
                             <button type="button" class="btn btn-buy-instant" data-id="<?php echo $id; ?>">
-                                ⚡ Buy Now
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                <span>Buy Now</span>
                             </button>
                         </div>
 
@@ -189,15 +209,17 @@ $catalog = getProductCatalog();
         
         <div class="drawer-header">
             <h3>
-                <span>🛒</span>
-                <span>Your Cart</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span>Shopping Cart</span>
                 <span class="badge badge-neutral" id="drawerItemCountBadge">0 items</span>
             </h3>
-            <button class="btn-close-drawer" id="closeCartBtn" aria-label="Close cart">✕</button>
+            <button class="btn-close-drawer" id="closeCartBtn" aria-label="Close cart">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
         </div>
 
         <div class="shipping-progress-banner">
-            <span class="icon">🚚</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="10" x="1" y="5" rx="1"/><polygon points="15 5 19 8 19 15 15 15 15 5"/><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg>
             <span id="shippingProgressText">Add items to qualify for FREE delivery across Malaysia!</span>
         </div>
 
@@ -223,12 +245,14 @@ $catalog = getProductCatalog();
             </div>
 
             <a href="checkout.php" class="btn btn-primary btn-block btn-lg" id="btnDrawerCheckout">
-                🔒 Proceed to Checkout
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Proceed to Checkout</span>
             </a>
 
             <div class="text-right mt-3">
                 <button type="button" class="btn-ghost btn-sm text-dim" id="btnClearCart">
-                    🗑️ Clear Cart
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>Clear Cart</span>
                 </button>
             </div>
         </div>
@@ -306,13 +330,16 @@ $catalog = getProductCatalog();
             // Animate button feedback
             const btn = document.getElementById(`btnAdd_${productId}`);
             if (btn) {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✓ Added!';
-                btn.style.background = '#0d9488';
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Added!</span>
+                `;
+                btn.style.backgroundColor = 'var(--primary)';
                 btn.style.color = '#ffffff';
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '';
+                    btn.innerHTML = originalHtml;
+                    btn.style.backgroundColor = '';
                     btn.style.color = '';
                 }, 1200);
             }
@@ -355,7 +382,6 @@ $catalog = getProductCatalog();
             const subtotalEl = document.getElementById('drawerSubtotalText');
             const totalEl = document.getElementById('drawerTotalText');
             const shippingProgressEl = document.getElementById('shippingProgressText');
-            const footerEl = document.getElementById('drawerFooter');
 
             let totalQty = 0;
             let subtotal = 0;
@@ -371,15 +397,15 @@ $catalog = getProductCatalog();
             if (cart.length === 0) {
                 listEl.innerHTML = `
                     <div class="empty-cart-state">
-                        <span class="icon">🛒</span>
+                        <svg class="icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                         <h3>Your cart is empty</h3>
                         <p class="text-xs text-muted mt-2">Explore our pharmaceutical catalog above to add healthcare essentials.</p>
-                        <button class="btn btn-outline btn-sm mt-4" onclick="closeCart()">Browse Products</button>
+                        <button class="btn btn-outline btn-sm mt-3" onclick="closeCart()">Browse Products</button>
                     </div>
                 `;
                 subtotalEl.innerText = 'RM 0.00';
                 totalEl.innerText = 'RM 0.00';
-                shippingProgressEl.innerHTML = '🚚 Add items to qualify for FREE delivery across Malaysia!';
+                shippingProgressEl.innerText = 'Add items to qualify for FREE delivery across Malaysia!';
                 document.getElementById('btnDrawerCheckout').style.pointerEvents = 'none';
                 document.getElementById('btnDrawerCheckout').style.opacity = '0.5';
                 return;
@@ -389,10 +415,10 @@ $catalog = getProductCatalog();
             document.getElementById('btnDrawerCheckout').style.opacity = '1';
 
             if (subtotal >= 60) {
-                shippingProgressEl.innerHTML = '🎉 <strong>FREE Delivery unlocked!</strong> Free shipping applied to this order.';
+                shippingProgressEl.innerHTML = '<strong>FREE Delivery unlocked!</strong> Free shipping applied to this order.';
             } else {
                 const diff = (60 - subtotal).toFixed(2);
-                shippingProgressEl.innerHTML = `🚚 Add <strong>RM ${diff}</strong> more to unlock FREE Delivery!`;
+                shippingProgressEl.innerHTML = `Add <strong>RM ${diff}</strong> more to qualify for FREE Delivery.`;
             }
 
             listEl.innerHTML = '';
@@ -406,13 +432,15 @@ $catalog = getProductCatalog();
                         <h4 class="cart-item-name">${item.name}</h4>
                         <div class="cart-item-price-unit">RM ${item.price.toFixed(2)}</div>
                         <div class="cart-item-stepper">
-                            <button class="btn-mini-step" onclick="updateCartItemQty('${item.id}', ${item.quantity - 1})">-</button>
+                            <button class="btn-mini-step" onclick="updateCartItemQty('${item.id}', ${item.quantity - 1})" aria-label="Decrease quantity">-</button>
                             <span class="mini-qty-val">${item.quantity}</span>
-                            <button class="btn-mini-step" onclick="updateCartItemQty('${item.id}', ${item.quantity + 1})">+</button>
+                            <button class="btn-mini-step" onclick="updateCartItemQty('${item.id}', ${item.quantity + 1})" aria-label="Increase quantity">+</button>
                         </div>
                     </div>
                     <div class="cart-item-total-col">
-                        <button class="btn-remove-item" onclick="removeCartItem('${item.id}')" title="Remove Item">🗑️</button>
+                        <button class="btn-remove-item" onclick="removeCartItem('${item.id}')" title="Remove Item" aria-label="Remove Item">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        </button>
                         <div class="cart-item-line-total">RM ${lineTotal}</div>
                     </div>
                 `;

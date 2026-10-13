@@ -1,6 +1,7 @@
 <?php
 /**
  * JYSTORE - Order Success / Thank You Page
+ * Flat Professional Theme & Vector Icons (Zero Emojis, Zero Gradients)
  */
 
 declare(strict_types=1);
@@ -72,29 +73,37 @@ $items = $order['items'] ?? ($order['products'] ?? ($verifiedChipData['purchase'
     <header class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <span class="logo-badge">💊</span>
+                <span class="logo-icon-box" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+                </span>
                 <span class="logo-accent">JY</span>STORE
                 <span class="logo-tag">PHARMACY</span>
             </a>
             <div class="nav-right">
-                <a href="index.php" class="nav-link">← Storefront</a>
-                <a href="debug.php" class="btn-monitor-link">📡 Monitor Dashboard</a>
+                <a href="index.php" class="btn btn-outline btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span>Storefront</span>
+                </a>
+                <a href="debug.php" class="btn-monitor-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>Monitor</span>
+                </a>
             </div>
         </div>
     </header>
 
     <main class="page-container">
-        <div class="status-card success-card">
+        <div class="status-card">
             
             <!-- Success Icon Header -->
-            <div class="status-icon-wrapper success-icon">
-                <span class="status-emoji">✓</span>
+            <div class="status-icon-wrapper success-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
 
-            <span class="badge badge-success mb-2">PAYMENT CONFIRMED</span>
-            <h1 class="status-title">Thank You for Your Order!</h1>
+            <span class="badge badge-success mb-2">Payment Confirmed</span>
+            <h1 class="status-title">Thank You for Your Order</h1>
             <p class="status-subtitle">
-                Your payment was successfully processed by <strong>CHIP Payment Gateway</strong>. We are preparing your pharmaceutical essentials for dispatch.
+                Your payment was successfully processed by <strong>CHIP Payment Gateway</strong>. Your pharmaceutical package is being prepared for immediate dispatch.
             </p>
 
             <!-- Order Summary Box -->
@@ -106,7 +115,7 @@ $items = $order['items'] ?? ($order['products'] ?? ($verifiedChipData['purchase'
                     </div>
                     <div class="text-right">
                         <span class="text-xs text-muted">AMOUNT PAID</span>
-                        <div class="text-xl font-bold text-success">RM <?php echo htmlspecialchars($displayAmount); ?></div>
+                        <div class="text-xl font-bold text-success font-mono">RM <?php echo htmlspecialchars($displayAmount); ?></div>
                     </div>
                 </div>
 
@@ -114,19 +123,19 @@ $items = $order['items'] ?? ($order['products'] ?? ($verifiedChipData['purchase'
 
                 <div class="receipt-details-grid">
                     <div class="detail-item">
-                        <span class="text-xs text-muted">Customer Name</span>
+                        <span class="text-xs text-muted block mb-1">Customer Name</span>
                         <span class="font-medium"><?php echo htmlspecialchars($customerName); ?></span>
                     </div>
                     <div class="detail-item">
-                        <span class="text-xs text-muted">Email</span>
+                        <span class="text-xs text-muted block mb-1">Email</span>
                         <span class="font-medium"><?php echo htmlspecialchars($customerEmail); ?></span>
                     </div>
                     <div class="detail-item">
-                        <span class="text-xs text-muted">Payment Channel</span>
+                        <span class="text-xs text-muted block mb-1">Payment Gateway</span>
                         <span class="font-medium text-emerald">CHIP (FPX / Card / eWallet)</span>
                     </div>
                     <div class="detail-item">
-                        <span class="text-xs text-muted">Transaction Date</span>
+                        <span class="text-xs text-muted block mb-1">Transaction Date</span>
                         <span class="font-medium"><?php echo date('d M Y, h:i A'); ?></span>
                     </div>
                 </div>
@@ -172,7 +181,7 @@ $items = $order['items'] ?? ($order['products'] ?? ($verifiedChipData['purchase'
                     <div class="step-line"></div>
                     <div class="step-point">
                         <span class="step-num">3</span>
-                        <span class="step-label">Pharmacy Pack</span>
+                        <span class="step-label">Packaging</span>
                     </div>
                     <div class="step-line"></div>
                     <div class="step-point">
@@ -186,13 +195,16 @@ $items = $order['items'] ?? ($order['products'] ?? ($verifiedChipData['purchase'
             <!-- Action Buttons -->
             <div class="status-actions">
                 <a href="index.php" class="btn btn-primary btn-lg">
-                    ← Return to JYSTORE Storefront
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="12" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span>Return to Storefront</span>
                 </a>
-                <a href="debug.php" class="btn btn-outline btn-lg">
-                    📡 View Webhook & Order Logs
+                <a href="debug.php" class="btn btn-outline">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>View Webhook & Order Monitor</span>
                 </a>
                 <button onclick="window.print()" class="btn btn-ghost">
-                    🖨️ Print Receipt
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                    <span>Print Receipt</span>
                 </button>
             </div>
 
