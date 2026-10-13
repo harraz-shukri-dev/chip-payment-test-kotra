@@ -17,6 +17,8 @@ $baseUrl = getBaseUrl();
 // POST Request: Process Payment with CHIP
 // -------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    ini_set('display_errors', '0');
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_NOTICE);
     header('Content-Type: application/json');
 
     if (empty($chipConfig['secret_key']) || empty($chipConfig['brand_id'])) {
@@ -117,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
-    curl_close($ch);
+    unset($ch);
 
     if ($response === false) {
         http_response_code(502);
@@ -521,7 +523,18 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                     body: JSON.stringify(payload)
                 });
 
-                const data = await res.json();
+                const rawText = await res.text();
+                let data;
+                try {
+                    data = JSON.parse(rawText);
+                } catch (parseErr) {
+                    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+                    if (jsonMatch) {
+                        data = JSON.parse(jsonMatch[0]);
+                    } else {
+                        throw new Error('Payment service returned an invalid response format.');
+                    }
+                }
 
                 if (data.success && data.checkout_url) {
                     btnText.innerText = 'Redirecting to CHIP Gateway...';

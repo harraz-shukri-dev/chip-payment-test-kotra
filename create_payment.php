@@ -136,7 +136,7 @@ echo "Sending purchase creation request to CHIP API...\n";
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlError = curl_error($ch);
-curl_close($ch);
+unset($ch);
 
 if ($response === false) {
     echo "\n[ERROR] Connection Error: {$curlError}\n";

@@ -5,6 +5,10 @@
 
 declare(strict_types=1);
 
+// Prevent PHP deprecation notices and warnings from leaking into JSON/HTTP responses (PHP 8.5+ compatibility)
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_NOTICE);
+ini_set('display_errors', '0');
+
 // Determine writable storage directory
 // In serverless environments (e.g. Vercel / AWS Lambda), the code directory is read-only.
 // We safely switch to sys_get_temp_dir() (/tmp) when running on Vercel or when storage is read-only.
@@ -259,7 +263,7 @@ function fetchChipPurchase(string $purchaseId, string $secretKey): ?array
 
     $res = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    unset($ch);
 
     if ($res !== false && $httpCode >= 200 && $httpCode < 300) {
         $json = json_decode($res, true);
