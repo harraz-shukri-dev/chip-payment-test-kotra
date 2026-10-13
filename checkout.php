@@ -37,12 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Customer details
-    $clientEmail = trim($input['email'] ?? ($input['client']['email'] ?? 'customer@example.com'));
-    $clientName  = trim($input['name'] ?? ($input['client']['full_name'] ?? 'Test Customer'));
-    $clientPhone = trim($input['phone'] ?? ($input['client']['phone'] ?? '+60123456789'));
+    $clientEmail = trim((string)($input['email'] ?? ($input['client']['email'] ?? '')));
+    $clientName  = trim((string)($input['name'] ?? ($input['client']['full_name'] ?? '')));
+    $clientPhone = trim((string)($input['phone'] ?? ($input['client']['phone'] ?? '')));
+
+    if (empty($clientName) || empty($clientEmail) || empty($clientPhone)) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'error' => 'Please provide your Name, Email, and Phone number.']);
+        exit;
+    }
 
     if (!filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
-        $clientEmail = 'customer@example.com';
+        http_response_code(400);
+        echo json_encode(['success' => false, 'error' => 'Please provide a valid email address.']);
+        exit;
     }
 
     // Items parsing
@@ -242,33 +250,33 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                     <form id="fullCheckoutForm" class="form-grid">
                         <div class="form-group full-width">
                             <label for="custName">Full Name <span class="required">*</span></label>
-                            <input type="text" id="custName" name="name" required placeholder="Full Name" value="Ahmad Razif">
+                            <input type="text" id="custName" name="name" required placeholder="Enter full name">
                         </div>
 
                         <div class="form-group half-width">
                             <label for="custEmail">Email Address <span class="required">*</span></label>
-                            <input type="email" id="custEmail" name="email" required placeholder="name@example.com" value="razif@example.com">
+                            <input type="email" id="custEmail" name="email" required placeholder="name@example.com">
                             <span class="input-hint">Order confirmation & CHIP receipt will be sent here</span>
                         </div>
 
                         <div class="form-group half-width">
                             <label for="custPhone">Mobile Number <span class="required">*</span></label>
-                            <input type="tel" id="custPhone" name="phone" required placeholder="+60123456789" value="+60123456789">
+                            <input type="tel" id="custPhone" name="phone" required placeholder="+60123456789">
                         </div>
 
                         <div class="form-group full-width">
-                            <label for="custAddress">Delivery Address <span class="required">*</span></label>
-                            <input type="text" id="custAddress" name="address" required placeholder="Unit No., Street Address" value="No. 18, Jalan Ampang Hilir">
+                            <label for="custAddress">Delivery Address</label>
+                            <input type="text" id="custAddress" name="address" placeholder="Unit No., Street Address">
                         </div>
 
                         <div class="form-group half-width">
-                            <label for="custCity">City <span class="required">*</span></label>
-                            <input type="text" id="custCity" name="city" required placeholder="City" value="Kuala Lumpur">
+                            <label for="custCity">City</label>
+                            <input type="text" id="custCity" name="city" placeholder="City">
                         </div>
 
                         <div class="form-group half-width">
-                            <label for="custPostcode">Postcode <span class="required">*</span></label>
-                            <input type="text" id="custPostcode" name="postcode" required placeholder="Postcode" value="50450">
+                            <label for="custPostcode">Postcode</label>
+                            <input type="text" id="custPostcode" name="postcode" placeholder="Postcode">
                         </div>
                     </form>
                 </div>
