@@ -1,0 +1,59 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/*.php": {
+      "runtime": "vercel-php@0.9.0",
+      "includeFiles": "*.php"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/index.php"
+    },
+    {
+      "source": "/index.php",
+      "destination": "/api/index.php"
+    },
+    {
+      "source": "/checkout.php",
+      "destination": "/api/checkout.php"
+    },
+    {
+      "source": "/checkout",
+      "destination": "/api/checkout.php"
+    },
+    {
+      "source": "/callback.php",
+      "destination": "/api/callback.php"
+    },
+    {
+      "source": "/callback",
+      "destination": "/api/callback.php"
+    },
+    {
+      "source": "/webhook.php",
+      "destination": "/api/webhook.php"
+    },
+    {
+      "source": "/webhook",
+      "destination": "/api/webhook.php"
+    },
+    {
+      "source": "/debug.php",
+      "destination": "/api/debug.php"
+    },
+    {
+      "source": "/debug",
+      "destination": "/api/debug.php"
+    },
+    {
+      "source": "/api-status.php",
+      "destination": "/api/api-status.php"
+    },
+    {
+      "source": "/api-status",
+      "destination": "/api/api-status.php"
+    }
+  ]
+}

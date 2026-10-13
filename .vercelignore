@@ -1,0 +1,12 @@
+# Environment secrets (Set these in Vercel Dashboard -> Settings -> Environment Variables instead)
+chip-env
+.env
+.env.*
+
+# Local test data
+storage/*.json
+
+# Documentation / Skills
+chip-skill/
+.git
+.github
