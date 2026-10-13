@@ -91,7 +91,7 @@ $baseUrl = getBaseUrl();
 
             <?php if (empty($orders)): ?>
                 <div class="empty-state">
-                    <p>No orders created yet. <a href="index.php">Go to the store</a> and purchase the RM 69 product to test!</p>
+                    <p>No orders created yet. <a href="index.php">Go to the store</a> and purchase the product to test!</p>
                 </div>
             <?php else: ?>
                 <div class="table-responsive">
@@ -187,6 +187,9 @@ $baseUrl = getBaseUrl();
         </section>
 
     </main>
+
+    <!-- Official JYSTORE Footer -->
+    <?php include __DIR__ . '/footer.php'; ?>
 
     <script>
         function copyWebhookUrl() {

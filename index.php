@@ -39,15 +39,15 @@ $catalog = getProductCatalog();
             </a>
 
             <div class="nav-right">
-                <div class="status-pill <?php echo $isConfigured ? 'status-active' : 'status-missing'; ?>">
+                <!-- <div class="status-pill <?php echo $isConfigured ? 'status-active' : 'status-missing'; ?>">
                     <span class="pulse-indicator"></span>
                     <span>CHIP <?php echo $isConfigured ? 'Sandbox Connected' : 'Credentials Missing'; ?></span>
-                </div>
+                </div> -->
 
-                <a href="debug.php" class="btn-monitor-link">
+                <!-- <a href="debug.php" class="btn-monitor-link">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
                     <span>Webhook Monitor</span>
-                </a>
+                </a> -->
 
                 <button class="cart-trigger" id="openCartBtn" aria-label="Open Cart">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -203,6 +203,9 @@ $catalog = getProductCatalog();
             <?php endforeach; ?>
         </div>
     </main>
+
+    <!-- Official JYSTORE Footer -->
+    <?php include __DIR__ . '/footer.php'; ?>
 
     <!-- Slide-out Cart Drawer -->
     <div class="cart-overlay" id="cartOverlay"></div>

@@ -392,6 +392,9 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
         </div>
     </main>
 
+    <!-- Official JYSTORE Footer -->
+    <?php include __DIR__ . '/footer.php'; ?>
+
     <!-- Script to load cart items & handle payment submission -->
     <script>
         const catalog = <?php echo json_encode($catalog); ?>;

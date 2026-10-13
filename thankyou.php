@@ -250,6 +250,9 @@ if (!empty($purchaseId)) {
         </div>
     </main>
 
+    <!-- Official JYSTORE Footer -->
+    <?php include __DIR__ . '/footer.php'; ?>
+
     <!-- Client-Side Hydration & Cart Clearing -->
     <script>
         // 1. Client-Side Hydration from localStorage if serverless lambda had empty session

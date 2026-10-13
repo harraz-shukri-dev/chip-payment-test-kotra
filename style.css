@@ -1759,6 +1759,223 @@ a {
 }
 
 /* ==========================================================================
+   Official Healthcare & Pharmacy Footer System (White, Green, Yellow)
+   ========================================================================== */
+.site-footer {
+    background-color: #ffffff;
+    border-top: 3px solid var(--brand-green);
+    margin-top: 3.5rem;
+    color: var(--text-main);
+    box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.03);
+}
+
+.footer-features-bar {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 1.75rem 0;
+}
+
+.footer-features-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.footer-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.feature-icon-box {
+    width: 44px;
+    height: 44px;
+    background-color: var(--brand-green-subtle);
+    color: var(--brand-green);
+    border: 1px solid var(--brand-green-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.feature-text-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-text-box strong {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.3;
+}
+
+.feature-text-box span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.footer-main {
+    padding: 3.5rem 0 2.5rem 0;
+    background-color: #ffffff;
+}
+
+.footer-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1.5fr;
+    gap: 2.5rem;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-logo {
+    display: inline-flex;
+    margin-bottom: 0.85rem;
+}
+
+.footer-description {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.15rem;
+}
+
+.footer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background-color: var(--brand-green-subtle);
+    color: var(--brand-green);
+    border: 1px solid var(--brand-green-border);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+}
+
+.footer-heading {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    padding-bottom: 0.4rem;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background-color: var(--brand-yellow);
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    font-size: 0.85rem;
+}
+
+.footer-links li a {
+    color: var(--text-muted);
+    transition: color 0.15s ease, transform 0.15s ease;
+    display: inline-block;
+}
+
+.footer-links li a:hover {
+    color: var(--brand-green);
+    transform: translateX(2px);
+}
+
+.footer-info-item {
+    color: var(--text-dim);
+    font-size: 0.82rem;
+}
+
+.footer-text-sm {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 0.85rem;
+}
+
+.footer-payment-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.channel-tag {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-strong);
+    color: var(--text-main);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+.footer-bottom {
+    background-color: #f8fafc;
+    border-top: 1px solid var(--border-subtle);
+    padding: 1.25rem 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.footer-bottom-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer-bottom-links a {
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: var(--brand-green);
+}
+
+.divider-dot {
+    color: var(--border-strong);
+}
+
+/* ==========================================================================
    Full Responsive Layout System (Mobile, Tablet, Desktop, Ultra-Wide)
    ========================================================================== */
 
@@ -1768,7 +1985,10 @@ a {
     .hero-section,
     .category-filter-section,
     .store-container,
-    .dashboard-container {
+    .dashboard-container,
+    .footer-features-container,
+    .footer-container,
+    .footer-bottom-container {
         padding-left: 1.25rem;
         padding-right: 1.25rem;
     }
@@ -1809,6 +2029,20 @@ a {
 
     .status-mini-card {
         text-align: left;
+    }
+
+    .footer-features-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .footer-col-brand {
+        grid-column: span 2;
     }
 }
 
@@ -1869,9 +2103,16 @@ a {
 
     .category-filter-section,
     .store-container,
-    .dashboard-container {
+    .dashboard-container,
+    .footer-features-container,
+    .footer-container,
+    .footer-bottom-container {
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+
+    .footer-main {
+        padding: 2.75rem 0 2rem 0;
     }
 
     .products-grid {
@@ -2078,6 +2319,28 @@ a {
     .data-table {
         min-width: 520px;
     }
+
+    /* Footer Mobile */
+    .footer-features-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    .footer-col-brand {
+        grid-column: span 1;
+    }
+
+    .footer-bottom-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+        align-items: center;
+    }
 }
 
 /* 5. Ultra-Compact Mobile Phones (max-width: 480px) */
@@ -2248,6 +2511,28 @@ a {
         padding: 1.25rem 1rem !important;
         width: 92vw !important;
     }
+
+    /* Footer Ultra-Compact */
+    .footer-features-bar {
+        padding: 1.25rem 0;
+    }
+
+    .footer-main {
+        padding: 2.25rem 0 1.75rem 0;
+    }
+
+    .footer-features-container,
+    .footer-container,
+    .footer-bottom-container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .footer-bottom-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
 }
 
 /* 6. Ultra-Narrow / Small Devices (max-width: 360px) */
@@ -2281,6 +2566,19 @@ a {
 
     .step-line {
         margin: 0 0.1rem 0.65rem 0.1rem;
+    }
+
+    .feature-icon-box {
+        width: 38px;
+        height: 38px;
+    }
+
+    .feature-text-box strong {
+        font-size: 0.82rem;
+    }
+
+    .feature-text-box span {
+        font-size: 0.72rem;
     }
 }
 

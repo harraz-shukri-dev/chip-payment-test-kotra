@@ -117,5 +117,8 @@ $subtitle = $isCancelled
         </div>
     </main>
 
+    <!-- Official JYSTORE Footer -->
+    <?php include __DIR__ . '/footer.php'; ?>
+
 </body>
 </html>
