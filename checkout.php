@@ -292,17 +292,12 @@ $isConfigured = !empty($chipConfig['secret_key']) && !empty($chipConfig['brand_i
                             <span class="badge badge-emerald">Instant Verification</span>
                         </div>
 
-                        <!-- Channel Badges -->
-                        <div class="payment-channels-showcase">
-                            <div class="channel-pill">FPX Online Banking</div>
-                            <div class="channel-pill">Touch 'n Go eWallet</div>
-                            <div class="channel-pill">GrabPay</div>
-                            <div class="channel-pill">Boost</div>
-                            <div class="channel-pill">Visa / Mastercard</div>
-                            <div class="channel-pill">DuitNow QR</div>
+                        <!-- CHIP Official Large Branding Banner -->
+                        <div class="chip-branding-banner-wrap">
+                            <img src="assets/Pay%20With%20CHIP%20Large%20All.png" alt="Pay with CHIP - FPX, Visa, Mastercard, Touch 'n Go, GrabPay, Boost, DuitNow QR" class="chip-branding-banner">
                         </div>
 
-                        <p class="text-xs text-muted mt-3">
+                        <p class="text-xs text-muted mt-2">
                             When you click Pay, you will be securely redirected to CHIP's hosted payment gateway page to choose your preferred bank or e-wallet.
                         </p>
                     </div>

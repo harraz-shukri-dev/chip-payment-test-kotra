@@ -1167,6 +1167,25 @@ a {
     text-align: center;
 }
 
+.chip-branding-banner-wrap {
+    background-color: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 0.875rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.875rem 0;
+}
+
+.chip-branding-banner {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
 .security-pill {
     display: flex;
     align-items: center;
