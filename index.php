@@ -132,7 +132,9 @@ $catalog = getProductCatalog();
                     
                     <!-- Product Image Container -->
                     <div class="product-image-container">
-                        <img src="<?php echo htmlspecialchars($prod['image']); ?>" alt="<?php echo htmlspecialchars($prod['name']); ?>" class="product-image" loading="lazy">
+                        <a href="product.php?id=<?php echo urlencode($id); ?>" class="product-card-img-link" aria-label="View <?php echo htmlspecialchars($prod['name']); ?> details">
+                            <img src="<?php echo htmlspecialchars($prod['image']); ?>" alt="<?php echo htmlspecialchars($prod['name']); ?>" class="product-image" loading="lazy">
+                        </a>
                         <div class="card-top-badges">
                             <span class="badge <?php echo htmlspecialchars($prod['badge_color']); ?>">
                                 <?php echo htmlspecialchars($prod['badge']); ?>
@@ -144,7 +146,11 @@ $catalog = getProductCatalog();
                     <!-- Card Body -->
                     <div class="product-card-body">
                         <span class="product-card-category"><?php echo htmlspecialchars($prod['category']); ?></span>
-                        <h2 class="product-card-title"><?php echo htmlspecialchars($prod['name']); ?></h2>
+                        <h2 class="product-card-title">
+                            <a href="product.php?id=<?php echo urlencode($id); ?>" class="product-title-link">
+                                <?php echo htmlspecialchars($prod['name']); ?>
+                            </a>
+                        </h2>
                         
                         <div class="product-rating-row">
                             <span class="stars-svg-row" aria-label="5 stars rating">

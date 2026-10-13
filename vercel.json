@@ -16,6 +16,14 @@
       "destination": "/api/index.php"
     },
     {
+      "source": "/product.php",
+      "destination": "/api/product.php"
+    },
+    {
+      "source": "/product",
+      "destination": "/api/product.php"
+    },
+    {
       "source": "/checkout.php",
       "destination": "/api/checkout.php"
     },
